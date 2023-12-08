@@ -1,0 +1,94 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    /*
+     * Complete the 'weightedUniformStrings' function below.
+     *
+     * The function is expected to return a STRING_ARRAY.
+     * The function accepts following parameters:
+     *  1. STRING s
+     *  2. INTEGER_ARRAY queries
+     */
+
+    public static List<String> weightedUniformStrings(String s, List<Integer> queries) {
+    HashMap<Character,Integer> letter_weights = new HashMap<Character, Integer>();
+    String letters = "abcdefghijklmnopqrstuvwxyz";
+
+    for (int i = 0; i < letters.length(); i++) {
+        letter_weights.put(letters.charAt(i), i + 1);
+    }
+
+    Set<Integer> string_weights = new HashSet<Integer>();
+    string_weights.add(letter_weights.get(s.charAt(0)));
+
+    int repeat = 1;
+    for (int i = 1; i < s.length(); i++) {
+        int current = letter_weights.get(s.charAt(i));
+        int previous = letter_weights.get(s.charAt(i-1));
+        if (current == previous) {
+            repeat += 1;
+        } else {
+            repeat = 1;
+        }
+        string_weights.add(current * repeat);
+    }
+
+    List<String> yes_no_array = new ArrayList<String>();
+
+    for (int i = 0; i < queries.size(); i++) {
+        if (string_weights.contains(queries.get(i))) {
+            yes_no_array.add("Yes");
+        } else {
+            yes_no_array.add("No");
+        }
+    }
+
+    System.out.print(string_weights);
+    return yes_no_array;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s = bufferedReader.readLine();
+
+        int queriesCount = Integer.parseInt(bufferedReader.readLine().trim());
+
+        List<Integer> queries = IntStream.range(0, queriesCount).mapToObj(i -> {
+            try {
+                return bufferedReader.readLine().replaceAll("\\s+$", "");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        })
+            .map(String::trim)
+            .map(Integer::parseInt)
+            .collect(toList());
+
+        List<String> result = Result.weightedUniformStrings(s, queries);
+
+        bufferedWriter.write(
+            result.stream()
+                .collect(joining("\n"))
+            + "\n"
+        );
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}

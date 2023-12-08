@@ -1,0 +1,5 @@
+Time Complexity:
+For the calculation of string_weights since in the worst case, it goes through each character once giving it O(n) complexity. For processing the queries, it goes through each query in queries and does a lookup in the HashSet, which is a O(1) operation. So, for q queries, this part is O(q). So combining these, the overall time complexity is O(n + q).
+
+Space Complexity:
+For the letter_weights HashMap, it has a constant size of 26, so the complexity is O(1). For the string_weights HashSet, in the worst case, it could store a distinct weight for each character in s, so the complexity is O(n). For the yes_no_array, it will have as many elements as there are queries, so its size is O(q). So combining these, the overall space complexity is also O(n + q).

@@ -1,0 +1,5 @@
+Time Complexity:
+For Collections.sort(arr) the sort method in Java uses has a time complexity of O(n log (n)). For calculating the Min and Max Sums the code uses two separate loops, which will always processes only 4 elements, so it's complexity is O(1). The overall time complexity is dominated by O(n log n).
+
+Space Complexity:
+For the sorts used in Java's standard library, the space complexity is O(n). Other stuff like variables has a space complexity of O(1), but overall the code will have O(n) space complexity.
